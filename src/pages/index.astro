@@ -1,81 +1,60 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Button from '../components/Button.astro';
+import Layout from '../layouts/Layout.astro'
+import { CALCULATOR_ITEMS } from '../utils/constants';
+
+const color1 = 'bg-stone-700'
+const color2 = 'bg-stone-500'
+const color3 = 'bg-white/95'
+const lastElements = [3, 7, 11, 15, 19]
 ---
 
-<Layout title="Welcome to Astro.">
-	<main>
-		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
-		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-		</p>
-		<ul role="list" class="link-card-grid">
-			<Card
-				href="https://docs.astro.build/"
-				title="Documentation"
-				body="Learn how Astro works and explore the official API docs."
-			/>
-			<Card
-				href="https://astro.build/integrations/"
-				title="Integrations"
-				body="Supercharge your project with new frameworks and libraries."
-			/>
-			<Card
-				href="https://astro.build/themes/"
-				title="Themes"
-				body="Explore a galaxy of community-built starter themes."
-			/>
-			<Card
-				href="https://astro.build/chat/"
-				title="Community"
-				body="Come say hi to our amazing Discord community. ❤️"
-			/>
-		</ul>
+<Layout title="Astro - Windows Calculator">
+	<main class="bg-stone-900 flex flex-col rounded-md">
+		<section class="flex flex-col gap-4">
+		<div class="flex w-full justify-end bg-inherit text-white rounded-md">
+			<button class="flex items-center justify-center hover:bg-red-700 hover:text-white  px-2 rounded-tr-md">
+				×
+			</button>
+			
+		</div>
+		<input type="number" class="w-ful bg-inherit text-xl  text-end text-white outline-none pr-1" />
+	</section>
+	<section class="bg-red grid grid-cols-4  gap-[1px] p-[2px]">
+		{
+			CALCULATOR_ITEMS.map((el, idx) => {
+				const isLastIdx = idx === CALCULATOR_ITEMS.length - 1
+				const isFirstRow = idx === 0 || idx === 1 || idx === 2
+
+				const isLastElement = lastElements.includes(idx)
+
+				const bgColor = isLastIdx ? color3 : isFirstRow || isLastElement ? color1 : color2
+
+				const color = isLastIdx ? 'text-black' : 'text-white'
+
+				const hoverColor =bgColor === color1 ? 'hover:bg-stone-500' : bgColor === color3 ? 'hover:bg-white/70' : 'hover:bg-stone-700'
+
+
+
+				return <Button bgColor={bgColor} content={el} color={color} hoverColor={`${hoverColor}`} />
+			})
+		}
+
+	</section>
 	</main>
 </Layout>
 
 <style>
-	main {
-		margin: auto;
-		padding: 1.5rem;
-		max-width: 60ch;
-	}
-	h1 {
-		font-size: 3rem;
-		font-weight: 800;
-		margin: 0;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	.instructions {
-		line-height: 1.6;
-		margin: 1rem 0;
-		border: 1px solid rgba(var(--accent), 25%);
-		background-color: white;
-		padding: 1rem;
-		border-radius: 0.4rem;
-	}
-	.instructions code {
-		font-size: 0.875em;
-		font-weight: bold;
-		background: rgba(var(--accent), 12%);
-		color: rgb(var(--accent));
-		border-radius: 4px;
-		padding: 0.3em 0.45em;
-	}
-	.instructions strong {
-		color: rgb(var(--accent));
-	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 1rem;
-		padding: 0;
-	}
+	/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 </style>
+

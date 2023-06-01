@@ -1,0 +1,16 @@
+---
+export interface Props {
+  bgColor: string
+  content: string
+  color: string
+  hoverColor: string
+}
+
+const {bgColor, content, color, hoverColor} = Astro.props
+
+---
+
+	
+<div class=`${bgColor} ${color}  ${hoverColor} rounded flex justify-center items-center text-md py-1 px-5 cursor-pointer`>
+  {content}
+</div>
