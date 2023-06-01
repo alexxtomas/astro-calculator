@@ -18,7 +18,7 @@ const lastElements = [3, 7, 11, 15, 19]
 			</button>
 			
 		</div>
-		<input type="number" class="w-ful bg-inherit text-xl  text-end text-white outline-none pr-1" />
+		<input type="number" id="calculator" class="w-ful bg-inherit text-xl  text-end text-white outline-none pr-1" value={0} />
 	</section>
 	<section class="bg-red grid grid-cols-4  gap-[1px] p-[2px]">
 		{
@@ -57,4 +57,53 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 </style>
+
+<script>
+	let operation = null
+	const buttons = document.querySelectorAll('.calculator-button')
+	const input = document.querySelector('#calculator') as HTMLInputElement
+
+	buttons.forEach(button => {
+		button.addEventListener('click' , (e: any) => {
+			const _value = e.target.textContent.trim()
+
+			if(_value === 'C' || _value === 'CE') {
+				input.value = '0'
+				return
+			}
+
+
+			if(_value === '⌫') {
+				if(input.value.length === 1) {
+					input.value = '0'
+					return
+				}
+				const newValue = input.value.slice(0, -1)
+				input.value = newValue
+				return
+			}
+
+			if(_value === '÷') {
+			  operation = '/'
+				return
+			}
+
+			console.log('_value')
+
+
+
+      if(
+			input.value === '0'
+			) {
+				input.value = ''
+			}
+			const newValue = input.value.concat(_value)
+
+			input.value = newValue
+			
+
+
+		})
+	})
+</script>
 
